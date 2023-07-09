@@ -1,6 +1,6 @@
 # Game of Life Simulation
 
-![Example](https://github.com/mhz-ninjas/j4.shay/blob/joojle-m4/01-life/The%20Life%20Game/lifeOut.gif?raw=true)
+![Example](https://github.com/Shay-M/JavaProjects/blob/master/01-life/The%20Life%20Game/lifeOut.gif?raw=true)
 
 simulate a game of life and save each generation as a pbm file.
 simulation will be on a grid of W * H cells.
