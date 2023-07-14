@@ -15,6 +15,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/content")
+/*
+@CrossOrigin() Because:
+Access to fetch at 'http://localhost:8080/api/content' from origin 'http://localhost:5173' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. If an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.
+*/
+@CrossOrigin()
 public class ContentController {
 
     private final ContentCollectionRepository repository;
@@ -41,7 +46,7 @@ public class ContentController {
         repository.save(content);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}")
     public void update(@RequestBody Content content, @PathVariable Integer id) {
         if (!repository.existsByID(id)) {
@@ -50,5 +55,12 @@ public class ContentController {
         repository.save(content);
     }
 
-
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        if (!repository.existsByID(id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "content not fond!");
+        }
+        repository.delete(id);
+    }
 }

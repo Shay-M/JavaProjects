@@ -17,14 +17,13 @@ public class ContentCollectionRepository {
     private final List<Content> contents = new ArrayList<>();
 
     public ContentCollectionRepository() {
-
     }
 
     public List<Content> findAll() {
         return contents;
     }
 
-    public Optional<Content> findById(Integer id) {
+    public Optional<Content> findById(final Integer id) {
         return contents.stream().filter(c -> c.id().equals(id)).findFirst();
     }
 
@@ -38,16 +37,20 @@ public class ContentCollectionRepository {
                 null,
                 "");
 
-
         contents.add(content);
     }
 
     public void save(final Content content) {
+        contents.removeIf(c -> c.id().equals(content.id()));// need to change
         contents.add(content);
     }
 
     public boolean existsByID(final Integer id) {
         return contents.stream().filter(c -> c.id().equals(id)).count() == 1;
 
+    }
+
+    public void delete(final Integer id) {
+        contents.removeIf(c -> c.id().equals(id));
     }
 }
