@@ -7,7 +7,9 @@ accept search queries and provide a list of links to pages containing the search
 main components: the crawling and link discovery subsystem, the search engine for executing queries, and the ranking
 subsystem to assign importance to pages.
 
-![umlPic.jpg](doc%2FumlPic.jpg)
+[//]: # (![umlPic.jpg]&#40;doc%2FumlPic.jpg&#41;)
+<img src="doc/umlPic.jpg" alt="UML Picture" width="450" height="250">
+
 
 ## High-Level Requirements
 
