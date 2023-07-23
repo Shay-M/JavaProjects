@@ -1,0 +1,122 @@
+@startuml
+scale 2.0
+abstract class shay.finalproject.webcraeler.crawlers.linktracker.AbstractVisitedTrackerDeque {
+# Deque<URI> m_urlsToVisit
++ boolean add(URI)
++ {abstract}boolean addAll(Set<URI>)
++ boolean isEmpty()
++ boolean contains(URI)
++ URI poll()
++ int size()
+}
+interface shay.finalproject.webcraeler.crawlers.limiter.interfaces.Limiter {
+~ boolean continueProcessing(VisitedLinkTracker,long,int)
+~ int getDepth()
+}
+class shay.finalproject.webcraeler.crawlers.linktracker.AddAllDfs {
++ boolean addAll(Set<URI>)
+}
+class shay.finalproject.webcraeler.extractor.LinkExtractorJsoup {
++ List<URI> extractLinks(Document)
+}
+class shay.finalproject.webcraeler.extractor.WebTextProcessor {
++ String cleanText(String)
++ List<String> textToList(String)
+}
+class shay.finalproject.webcraeler.config.SpringAsyncConfig {
++ Executor getAsyncExecutor()
+}
+interface shay.finalproject.webcraeler.extractor.interfaces.TextProcessor {
+~ String cleanText(String)
+~ List<String> textToList(String)
+}
+class shay.finalproject.webcraeler.crawlers.linktracker.AddAllBfs {
++ boolean addAll(Set<URI>)
+}
+interface shay.finalproject.webcraeler.crawlers.interfaces.Crawler {
+~ void crawl()
+}
+class shay.finalproject.webcraeler.crawlers.limiter.DfsLimiter {
++ boolean continueProcessing(VisitedLinkTracker,long,int)
+}
+class shay.finalproject.webcraeler.event.DataReadyEvent {
+~ int numUniquePages
+~ int numLinks
+~ int numIgnoredLinks
+}
+class shay.finalproject.webcraeler.config.CrawlerConfig {
+}
+class shay.finalproject.extractor.TextExtractorJsoupTest {
+~ void setUp()
++ void testExtractTextToBigString()
++ void testCleanTextToString()
++ void testBigStringToList()
+}
+class shay.finalproject.webcraeler.extractor.TextExtractorJsoup {
++ String extractTextToBigString(Document)
+}
+class shay.finalproject.webcraeler.crawlers.WebCrawler {
++ void crawl()
++ void endCrawl()
+# List<String> extractedTextToWords(Document)
++ Statistics getStatistics()
+}
+class shay.finalproject.webcraeler.extractor.UrlEncoder {
++ {static} String encodeUrl(String)
+}
+interface shay.finalproject.webcraeler.crawlers.interfaces.VisitedLinkTracker {
+~ boolean add(URI)
+~ boolean addAll(Set<URI>)
+~ boolean isEmpty()
+~ boolean contains(URI)
+~ URI poll()
+~ int size()
+}
+abstract class shay.finalproject.webcraeler.crawlers.limiter.interfaces.AbstractLimiter {
+# CrawlerConfig m_config
+# boolean noMaxDepthSet
+# boolean noMaxPagesSet
+# int m_depth
+# int m_depthJumper
++ int getDepth()
+}
+class shay.finalproject.webcraeler.crawlers.limiter.BfsLimiter {
++ boolean continueProcessing(VisitedLinkTracker,long,int)
+}
+interface shay.finalproject.webcraeler.extractor.interfaces.TextExtractor {
+~ String extractTextToBigString(Document)
+}
+class shay.finalproject.webcraeler.extractor.DocumentProviderJsoup {
++ Optional<Document> getDocument(URI)
+~ Document getPageFromLink(URI)
+}
+class shay.finalproject.webcraeler.event.DataReadyEventPublisher {
++ void publishCustomEvent(int,int,int)
+}
+class shay.finalproject.webcraeler.Indexer {
++ void update(List<T>,URI)
++ LinkMap<T> getLinkMap()
+}
+interface shay.finalproject.webcraeler.extractor.interfaces.LinkExtractor {
+~ List<URI> extractLinks(Document)
+}
+interface shay.finalproject.webcraeler.extractor.interfaces.DocumentProvider {
+~ Optional<Document> getDocument(URI)
+}
+
+
+shay.finalproject.webcraeler.crawlers.interfaces.VisitedLinkTracker <|.. shay.finalproject.webcraeler.crawlers.linktracker.AbstractVisitedTrackerDeque
+shay.finalproject.webcraeler.crawlers.linktracker.AbstractVisitedTrackerDeque <|-- shay.finalproject.webcraeler.crawlers.linktracker.AddAllDfs
+shay.finalproject.webcraeler.extractor.interfaces.LinkExtractor <|.. shay.finalproject.webcraeler.extractor.LinkExtractorJsoup
+shay.finalproject.webcraeler.extractor.interfaces.TextProcessor <|.. shay.finalproject.webcraeler.extractor.WebTextProcessor
+org.springframework.scheduling.annotation.AsyncConfigurer <|.. shay.finalproject.webcraeler.config.SpringAsyncConfig
+shay.finalproject.webcraeler.crawlers.linktracker.AbstractVisitedTrackerDeque <|-- shay.finalproject.webcraeler.crawlers.linktracker.AddAllBfs
+shay.finalproject.webcraeler.crawlers.limiter.interfaces.AbstractLimiter <|-- shay.finalproject.webcraeler.crawlers.limiter.DfsLimiter
+org.springframework.context.ApplicationEvent <|-- shay.finalproject.webcraeler.event.DataReadyEvent
+shay.finalproject.webcraeler.extractor.interfaces.TextExtractor <|.. shay.finalproject.webcraeler.extractor.TextExtractorJsoup
+shay.finalproject.webcraeler.crawlers.interfaces.Crawler <|.. shay.finalproject.webcraeler.crawlers.WebCrawler
+shay.finalproject.controller.infrastructure.StatisticsService <|.. shay.finalproject.webcraeler.crawlers.WebCrawler
+shay.finalproject.webcraeler.crawlers.limiter.interfaces.Limiter <|.. shay.finalproject.webcraeler.crawlers.limiter.interfaces.AbstractLimiter
+shay.finalproject.webcraeler.crawlers.limiter.interfaces.AbstractLimiter <|-- shay.finalproject.webcraeler.crawlers.limiter.BfsLimiter
+shay.finalproject.webcraeler.extractor.interfaces.DocumentProvider <|.. shay.finalproject.webcraeler.extractor.DocumentProviderJsoup
+@enduml

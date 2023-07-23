@@ -1,0 +1,199 @@
+@startuml
+abstract class shay.finalproject.webcraeler.crawlers.linktracker.AbstractVisitedTrackerDeque {
+# Deque<URI> m_urlsToVisit
++ boolean add(URI)
++ {abstract}boolean addAll(Set<URI>)
++ boolean isEmpty()
++ boolean contains(URI)
++ URI poll()
++ int size()
+}
+interface shay.finalproject.webcraeler.crawlers.limiter.interfaces.Limiter {
+~ boolean continueProcessing(VisitedLinkTracker,long,int)
+~ int getDepth()
+}
+class shay.finalproject.webcraeler.crawlers.linktracker.AddAllDfs {
++ boolean addAll(Set<URI>)
+}
+class shay.finalproject.webcraeler.extractor.WebTextProcessor {
++ String cleanText(String)
++ List<String> textToList(String)
+}
+class shay.finalproject.webcraeler.extractor.LinkExtractorJsoup {
++ List<URI> extractLinks(Document)
+}
+class shay.finalproject.webcraeler.crawlers.linktracker.AddAllBfs {
++ boolean addAll(Set<URI>)
+}
+interface shay.finalproject.webcraeler.crawlers.interfaces.Crawler {
+~ void crawl()
+}
+class shay.finalproject.webcraeler.config.CrawlerConfig {
+}
+class shay.finalproject.webcraeler.event.DataReadyEvent {
+~ int numUniquePages
+~ int numLinks
+~ int numIgnoredLinks
+}
+interface shay.finalproject.search.parsers.infrastructure.Parser {
+~ ProcessedQuery phase(String)
+}
+class shay.finalproject.webcraeler.crawlers.WebCrawler {
++ void crawl()
++ void endCrawl()
+# List<String> extractedTextToWords(Document)
++ Statistics getStatistics()
+}
+class shay.finalproject.app.JoojleSearchEngineApp {
+~ int m_numberOfThread
++ void run(String)
++ void handleDataReadyEvent(DataReadyEvent)
+}
+class shay.finalproject.controller.StatisticsController {
++ Statistics getStatistics()
+}
+interface shay.finalproject.webcraeler.crawlers.interfaces.VisitedLinkTracker {
+~ boolean add(URI)
+~ boolean addAll(Set<URI>)
+~ boolean isEmpty()
+~ boolean contains(URI)
+~ URI poll()
+~ int size()
+}
+interface shay.finalproject.search.infrastructure.interfaces.QueryResult {
+}
+class shay.finalproject.LinkWordCountMapTest {
+~ LinkMap linkMap
+~ void setUp()
+~ void testAddLinkForExistingWord()
+~ void testGetLinksForNonexistentWord()
+~ void testGetLinksForExistingWord()
+~ void testAddingSameLinkTwice()
+}
+class shay.finalproject.pagerank.EnginePageRank {
++ void computePageRank(LinkMap<URI>)
+}
+class shay.finalproject.datastructure.LinkMap {
+~ ConcurrentHashMap<T,CopyOnWriteArraySet<LinkWordCount>> map
++ void add(T,LinkWordCount)
++ List<LinkWordCount> getLinkWordCount(T)
++ boolean contains(T)
++ int size()
++ ConcurrentHashMap<T,CopyOnWriteArraySet<LinkWordCount>> getMap()
+}
+class shay.finalproject.webcraeler.extractor.DocumentProviderJsoup {
++ Optional<Document> getDocument(URI)
+~ Document getPageFromLink(URI)
+}
+interface shay.finalproject.search.api.SearchService {
+~ ResponseEntity<String> search(String)
+}
+class shay.finalproject.search.api.SearchController {
++ ResponseEntity<String> search(String)
+}
+interface shay.finalproject.pagerank.PageRankService {
+~ Map<T,Double> calculatePageRanks(List<T>,URI)
+}
+interface shay.finalproject.search.infrastructure.interfaces.SupplierQuery {
+~ String getQuery()
+}
+class shay.finalproject.webcraeler.Indexer {
++ void update(List<T>,URI)
++ LinkMap<T> getLinkMap()
+}
+interface shay.finalproject.webcraeler.extractor.interfaces.LinkExtractor {
+~ List<URI> extractLinks(Document)
+}
+class shay.finalproject.search.parsers.QueryPhase {
++ ProcessedQuery phase(String)
+}
+interface shay.finalproject.webcraeler.extractor.interfaces.DocumentProvider {
+~ Optional<Document> getDocument(URI)
+}
+interface shay.finalproject.controller.infrastructure.StatisticsService {
+~ Statistics getStatistics()
+}
+class shay.finalproject.app.Input {
++ String getQuery()
+}
+interface shay.finalproject.datastructure.infrastructure.Data {
+~ void add(T,LinkWordCount)
+~ List<LinkWordCount> getLinkWordCount(T)
+~ boolean contains(T)
+~ int size()
+}
+class shay.finalproject.webcraeler.config.SpringAsyncConfig {
++ Executor getAsyncExecutor()
+}
+interface shay.finalproject.search.infrastructure.interfaces.SearchEngine {
+~ QueryResult search(String)
+}
+interface shay.finalproject.webcraeler.extractor.interfaces.TextProcessor {
+~ String cleanText(String)
+~ List<String> textToList(String)
+}
+class shay.finalproject.webcraeler.crawlers.limiter.DfsLimiter {
++ boolean continueProcessing(VisitedLinkTracker,long,int)
+}
+class shay.finalproject.JoojleSearchEngine {
++ {static} void main(String[])
+}
+class shay.finalproject.extractor.TextExtractorJsoupTest {
+~ void setUp()
++ void testExtractTextToBigString()
++ void testCleanTextToString()
++ void testBigStringToList()
+}
+class shay.finalproject.webcraeler.extractor.TextExtractorJsoup {
++ String extractTextToBigString(Document)
+}
+class shay.finalproject.webcraeler.extractor.UrlEncoder {
++ {static} String encodeUrl(String)
+}
+class shay.finalproject.search.QuerySearch {
++ QueryResult search(String)
+}
+class shay.finalproject.pagerank.RankByCount {
++ Map<T,Double> calculatePageRanks(List<T>,URI)
+}
+abstract class shay.finalproject.webcraeler.crawlers.limiter.interfaces.AbstractLimiter {
+# CrawlerConfig m_config
+# boolean noMaxDepthSet
+# boolean noMaxPagesSet
+# int m_depth
+# int m_depthJumper
++ int getDepth()
+}
+class shay.finalproject.webcraeler.crawlers.limiter.BfsLimiter {
++ boolean continueProcessing(VisitedLinkTracker,long,int)
+}
+interface shay.finalproject.webcraeler.extractor.interfaces.TextExtractor {
+~ String extractTextToBigString(Document)
+}
+class shay.finalproject.webcraeler.event.DataReadyEventPublisher {
++ void publishCustomEvent(int,int,int)
+}
+
+
+shay.finalproject.webcraeler.crawlers.interfaces.VisitedLinkTracker <|.. shay.finalproject.webcraeler.crawlers.linktracker.AbstractVisitedTrackerDeque
+shay.finalproject.webcraeler.crawlers.linktracker.AbstractVisitedTrackerDeque <|-- shay.finalproject.webcraeler.crawlers.linktracker.AddAllDfs
+shay.finalproject.webcraeler.extractor.interfaces.TextProcessor <|.. shay.finalproject.webcraeler.extractor.WebTextProcessor
+shay.finalproject.webcraeler.extractor.interfaces.LinkExtractor <|.. shay.finalproject.webcraeler.extractor.LinkExtractorJsoup
+shay.finalproject.webcraeler.crawlers.linktracker.AbstractVisitedTrackerDeque <|-- shay.finalproject.webcraeler.crawlers.linktracker.AddAllBfs
+org.springframework.context.ApplicationEvent <|-- shay.finalproject.webcraeler.event.DataReadyEvent
+shay.finalproject.webcraeler.crawlers.interfaces.Crawler <|.. shay.finalproject.webcraeler.crawlers.WebCrawler
+shay.finalproject.controller.infrastructure.StatisticsService <|.. shay.finalproject.webcraeler.crawlers.WebCrawler
+org.springframework.boot.CommandLineRunner <|.. shay.finalproject.app.JoojleSearchEngineApp
+shay.finalproject.datastructure.infrastructure.Data <|.. shay.finalproject.datastructure.LinkMap
+shay.finalproject.webcraeler.extractor.interfaces.DocumentProvider <|.. shay.finalproject.webcraeler.extractor.DocumentProviderJsoup
+shay.finalproject.search.api.SearchService <|.. shay.finalproject.search.api.SearchController
+shay.finalproject.search.parsers.infrastructure.Parser <|.. shay.finalproject.search.parsers.QueryPhase
+shay.finalproject.search.infrastructure.interfaces.SupplierQuery <|.. shay.finalproject.app.Input
+org.springframework.scheduling.annotation.AsyncConfigurer <|.. shay.finalproject.webcraeler.config.SpringAsyncConfig
+shay.finalproject.webcraeler.crawlers.limiter.interfaces.AbstractLimiter <|-- shay.finalproject.webcraeler.crawlers.limiter.DfsLimiter
+shay.finalproject.webcraeler.extractor.interfaces.TextExtractor <|.. shay.finalproject.webcraeler.extractor.TextExtractorJsoup
+shay.finalproject.search.infrastructure.interfaces.SearchEngine <|.. shay.finalproject.search.QuerySearch
+shay.finalproject.pagerank.PageRankService <|.. shay.finalproject.pagerank.RankByCount
+shay.finalproject.webcraeler.crawlers.limiter.interfaces.Limiter <|.. shay.finalproject.webcraeler.crawlers.limiter.interfaces.AbstractLimiter
+shay.finalproject.webcraeler.crawlers.limiter.interfaces.AbstractLimiter <|-- shay.finalproject.webcraeler.crawlers.limiter.BfsLimiter
+@enduml

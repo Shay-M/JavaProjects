@@ -1,0 +1,27 @@
+@startuml
+class shay.finalproject.datastructure.LinkMap {
+~ ConcurrentHashMap<T,CopyOnWriteArraySet<LinkWordCount>> map
++ void add(T,LinkWordCount)
++ List<LinkWordCount> getLinkWordCount(T)
++ boolean contains(T)
++ int size()
++ ConcurrentHashMap<T,CopyOnWriteArraySet<LinkWordCount>> getMap()
+}
+interface shay.finalproject.datastructure.infrastructure.Data {
+~ void add(T,LinkWordCount)
+~ List<LinkWordCount> getLinkWordCount(T)
+~ boolean contains(T)
+~ int size()
+}
+class shay.finalproject.LinkWordCountMapTest {
+~ LinkMap linkMap
+~ void setUp()
+~ void testAddLinkForExistingWord()
+~ void testGetLinksForNonexistentWord()
+~ void testGetLinksForExistingWord()
+~ void testAddingSameLinkTwice()
+}
+
+
+shay.finalproject.datastructure.infrastructure.Data <|.. shay.finalproject.datastructure.LinkMap
+@enduml
