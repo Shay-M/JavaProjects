@@ -22,9 +22,7 @@ public class RebootingState implements IRobotState {
 
     @Override
     public void rebootState(final IRobotActions actions) {
-        // final var working = m_beanFactory.getBean(WorkingState.class);
-        // robotDate.setRobotStates(working);
-
+        actions.startReboot();
     }
 
     @Override

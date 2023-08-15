@@ -20,8 +20,7 @@ public class WorkingState implements IRobotState {
 
     @Override
     public void rebootState(final IRobotActions actions) {
-        actions.setRobotStates(new RebootingState());
-
+        actions.startReboot();
     }
 
     @Override

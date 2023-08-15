@@ -5,8 +5,9 @@ import org.springframework.scheduling.annotation.Async;
 import shay.space.station.core.random.ProbabilityOfSuccess;
 import shay.space.station.tools.exception.ToolMalfunctionException;
 
-import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 
 public abstract class AbstractTool implements Tool {
     protected static final long SEC = 1000L;
@@ -39,54 +40,56 @@ public abstract class AbstractTool implements Tool {
         return m_toolState;
     }
 
-    // @Override
-    // public boolean selfHealing() {
-    //     return false;
-    // }
 
     @Async
     @Override
-    public void use() throws ToolMalfunctionException {
-        // if (!probabilityOfSuccess.isSuccess(m_useSuccessRates)) {
-        //     m_toolState = ToolState.MALFUNCTION;
-        //     throw new ToolMalfunctionException();
-        // }
-
-        try {
-            System.out.println("start long work");
-            System.out.println(Thread.currentThread().threadId());
-            final int useTime = ThreadLocalRandom.current().nextInt(MIN_TIME, MAX_TIME);
-            System.out.println("Duty shift cycle will take a random time between 30-180 seconds.");
-
-            Thread.sleep(SEC * useTime);
+    public CompletableFuture<Void> use(final Consumer<Boolean> completionCallback) throws ToolMalfunctionException {
+        if (probabilityOfSuccess.isSuccess(m_useSuccessRates)) {
+            m_toolState = ToolState.MALFUNCTION;
+            throw new ToolMalfunctionException();
         }
-        catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println("end long work");
-        // return CompletableFuture.completedFuture("diamonds");
 
+        return CompletableFuture.runAsync(() -> {
+            try {
+                // Simulate tool usage
+                int useTime = ThreadLocalRandom.current().nextInt(MIN_TIME, MAX_TIME);
+                Thread.sleep(SEC * useTime);
+                boolean success = true;
+                completionCallback.accept(success);
+            }
+            catch (InterruptedException e) {
+                completionCallback.accept(false);
+            }
+        });
     }
 
+    @Async
     @Override
-    public boolean selfHealing() {
+    public CompletableFuture<Boolean> selfHealing(Consumer<Throwable> completionCallback) {
         assert (m_toolState == ToolState.MALFUNCTION);
         final int repairTime = ThreadLocalRandom.current().nextInt(10, 20);
-        System.out.println("Starting self-healing on tool " + m_toolName + ". Expected repair time: " + repairTime + " seconds.");
-        try {
-            Thread.sleep(repairTime * SEC);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        boolean repairSucceeded = probabilityOfSuccess.isSuccess(m_healingSuccessRates);
-        System.out.println("Self-healing " + (repairSucceeded ? "successful" : "failed") + " on tool " + m_toolName);
-        return repairSucceeded;
+        // System.out.println("Starting self-healing on tool " + m_toolName + ". Expected repair time: " + repairTime + " seconds.");
 
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(repairTime * SEC);
+                final boolean repairSucceeded = probabilityOfSuccess.isSuccess(m_healingSuccessRates);
+                return repairSucceeded;
+            }
+            catch (InterruptedException e) {
+                completionCallback.accept(e); // Notify the completion callback about the exception
+                return false; // Indicate that self-healing failed due to interruption
+            }
+            catch (Exception e) {
+                completionCallback.accept(e);
+                return false;
+            }
+        });
     }
+
 
     @Override
     public String toString() {
-        return "Tool name: " + m_toolName + " | State: " + m_toolState.toString().toLowerCase();
+        return "Tool name: " + m_toolName + ",State: " + m_toolState.toString().toLowerCase();
     }
 }

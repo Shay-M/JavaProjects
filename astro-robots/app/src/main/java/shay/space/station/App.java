@@ -22,7 +22,8 @@ public class App implements CommandLineRunner {
         final var robot = robotsMaker.createRobot("HAL9000", "bot1", "101Am");
 
         System.out.println(robot);
-        robot.dispatch();
+        robot.selfDiagnosis();
+        System.out.println(robot.getRobotStates());
 
         // final var robot2 = robotsMaker.createRobot("HAL9000", "bot2", "101Am");
         //

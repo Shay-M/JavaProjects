@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Joojle Search Engine</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+<section class="container">
+    <h1>Joojle Search Engine</h1>
+    <form id="searchForm">
+        <input type="text" id="queryInput" placeholder="Enter your search query">
+        <button type="submit" id="searchButton">Search</button>
+    </form>
+    <div id="searchResults"></div>
+    <button onclick="location.href='http://localhost:8080/statistics'">Statistics</button>
+</section>
+
+<script>
+    const searchForm = document.getElementById('searchForm');
+    const queryInput = document.getElementById('queryInput');
+    const searchResults = document.getElementById('searchResults');
+
+    searchForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent form submission
+
+        const query = queryInput.value.trim();
+        if (query !== '') {
+            performSearch(query);
+        }
+    });
+
+    function performSearch(query) {
+        fetch(`/api/search?q=${encodeURIComponent(query)}`)
+            .then(response => response.text())
+            .then(data => {
+                searchResults.innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error performing search:', error);
+            });
+    }
+
+</script>
+</body>
+</html>
