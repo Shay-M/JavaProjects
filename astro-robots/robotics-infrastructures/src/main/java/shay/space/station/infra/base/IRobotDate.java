@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IRobotDate {
 
-    IRobotState getRobotStates();
+    IRobotState getStates();
 
     RobotData getData();
 

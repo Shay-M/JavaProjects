@@ -12,4 +12,8 @@ public interface IRobotState {
     void selfDiagnosisState(final IRobotActions actions);
 
     String toString();
+
+    default String getStateName() {
+        return this.getClass().getSimpleName();
+    }
 }

@@ -4,7 +4,7 @@ import shay.space.station.infra.behavior.IRobotState;
 
 public interface IRobotActions {
 
-    void setRobotStates(IRobotState states);
+    void setStates(IRobotState states);
 
     void startSelfDiagnosis();
 
