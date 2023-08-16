@@ -9,12 +9,11 @@ import shay.space.station.infra.behavior.states.WorkingState;
 import shay.space.station.tools.Tool;
 import shay.space.station.tools.ToolState;
 import shay.space.station.tools.exception.ToolMalfunctionException;
-import shay.space.station.ui.console.Output;
+import shay.space.station.ui.infra.Output;
 
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -38,7 +37,7 @@ public abstract class Robot implements IRobotDate, IRobotBuilder, IRobotActions,
 
     public Robot(final List<Tool> tools, final IRobotState robotState) {
         m_tools = tools;
-        setRobotStates(robotState);
+        setStates(robotState);
     }
 
     @Override
@@ -47,7 +46,7 @@ public abstract class Robot implements IRobotDate, IRobotBuilder, IRobotActions,
     }
 
     @Override
-    public IRobotState getRobotStates() {
+    public IRobotState getStates() {
         m_readLock.lock();
         try {
             return m_stateRobot;
@@ -58,7 +57,7 @@ public abstract class Robot implements IRobotDate, IRobotBuilder, IRobotActions,
     }
 
     @Override
-    public void setRobotStates(final IRobotState statesRobot) {
+    public void setStates(final IRobotState statesRobot) {
         m_writeLock.lock();
         try {
             m_stateRobot = statesRobot;
@@ -171,7 +170,7 @@ public abstract class Robot implements IRobotDate, IRobotBuilder, IRobotActions,
         m_output.print("Robot " + m_robotData.name() + " is in active duty." + tool.toString() + ".");
         m_output.print("Duty shift cycle will take a random time between 30-180 seconds.");
         final var working = m_beanFactory.getBean(WorkingState.class);
-        setRobotStates(working);
+        setStates(working);
         try {
             tool.use(success -> {
                 if (success) {
@@ -180,7 +179,7 @@ public abstract class Robot implements IRobotDate, IRobotBuilder, IRobotActions,
                 else {
                     m_output.print("Tool usage failed.");
                     final var failing = m_beanFactory.getBean(FailingState.class);
-                    setRobotStates(failing);
+                    setStates(failing);
                 }
             });
 
@@ -188,7 +187,7 @@ public abstract class Robot implements IRobotDate, IRobotBuilder, IRobotActions,
         catch (ToolMalfunctionException e) {
             m_output.print("XX " + e.getMessage());
             final var failing = m_beanFactory.getBean(FailingState.class);
-            setRobotStates(failing);
+            setStates(failing);
         }
 
 
@@ -199,7 +198,7 @@ public abstract class Robot implements IRobotDate, IRobotBuilder, IRobotActions,
         m_output.print("Robot " + m_robotData.name() + " start Reboot.");
 
         final var rebooting = m_beanFactory.getBean(RebootingState.class);
-        setRobotStates(rebooting);
+        setStates(rebooting);
 
     }
 
