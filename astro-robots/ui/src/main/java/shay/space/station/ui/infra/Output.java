@@ -1,4 +1,4 @@
-package shay.space.station.ui.console;
+package shay.space.station.ui.infra;
 
 public interface Output {
 
