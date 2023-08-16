@@ -1,0 +1,26 @@
+.list-group {
+  list-style: none;
+  padding: 0;
+}
+
+.list-group li {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.list-group li strong {
+  font-weight: bold;
+}
+
+.list-group li:hover {
+  background-color: #f5f5f5;
+}
+
+h1 {
+  font-size: 24px;
+  color: bisque;
+  margin-bottom: 20px;
+}

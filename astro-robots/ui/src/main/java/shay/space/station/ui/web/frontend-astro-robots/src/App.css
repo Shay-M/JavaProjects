@@ -1,0 +1,42 @@
+/* App.css */
+body {
+  background-color: #f8f9fa; /* Light gray background */
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  background-color: #343a40; /* Dark background for header */
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+}
+
+.main-screen h2,
+.command-list h3 {
+  color: lightgray;
+}
+
+.custom-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Style for main content area */
+.content {
+  margin-top: 20px;
+}
+
+.command-link {
+  color: rgb(65, 51, 51);
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.command-link:hover {
+  color: lightgray;
+}

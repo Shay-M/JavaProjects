@@ -90,6 +90,6 @@ public abstract class AbstractTool implements Tool {
 
     @Override
     public String toString() {
-        return "Tool name: " + m_toolName + ",State: " + m_toolState.toString().toLowerCase();
+        return "Name: " + m_toolName + ", On State: " + m_toolState.toString().toLowerCase();
     }
 }

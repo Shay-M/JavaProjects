@@ -16,5 +16,7 @@ public interface Tool {
 
     CompletableFuture<Void> use(final Consumer<Boolean> completionCallback) throws ToolMalfunctionException;
 
-
+    default String getToolName() {
+        return this.getClass().getSimpleName();
+    }
 }
