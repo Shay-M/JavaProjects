@@ -1,35 +1,43 @@
 package shay.space.station;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import shay.space.station.robots.factory.RobotsMaker;
-import shay.space.station.ui.console.Output;
+import shay.space.station.command.CommandsManager;
+import shay.space.station.fleet.SpaceRobotsFleet;
+import shay.space.station.fleet.exception.DuplicateRobotException;
+import shay.space.station.robots.factory.RobotFactory;
 
 @Component
 public class App implements CommandLineRunner {
-    private final RobotsMaker robotsMaker;
+    private final RobotFactory m_robotFactory;
+    private final SpaceRobotsFleet m_fleet;
+    private final CommandsManager m_commandsManager;
 
-    public App(final RobotsMaker robotsMaker) {
-        this.robotsMaker = robotsMaker;
+    public App(final RobotFactory robotFactory, final SpaceRobotsFleet fleet, final CommandsManager commandsManager) {
+        m_robotFactory = robotFactory;
+        m_fleet = fleet;
+        m_commandsManager = commandsManager;
     }
 
     @Override
     public void run(String... args) throws Exception {
         System.out.println("start!");
 
-        // final var robot = robotsMaker.hal9k("bot1", "101Am");
-        final var robot = robotsMaker.createRobot("HAL9000", "bot1", "101Am");
+        // System.out.println(m_robotFactory.getAllModels());
 
-        System.out.println(robot);
-        robot.selfDiagnosis();
-        System.out.println(robot.getRobotStates());
+        try {
+            final var robot = m_robotFactory.createRobot("HAL9000", "bot1", "101Am");
+            m_fleet.addRobot(robot);
 
-        // final var robot2 = robotsMaker.createRobot("HAL9000", "bot2", "101Am");
-        //
-        // System.out.println(robot2);
-        // robot2.dispatch();
+            final var robot2 = m_robotFactory.createRobot("HAL9000", "bot2", "102Am");
+            m_fleet.addRobot(robot2);
 
 
+        }
+        catch (DuplicateRobotException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        m_commandsManager.start();
     }
 }
