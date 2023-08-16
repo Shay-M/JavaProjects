@@ -9,8 +9,8 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>shay.space.station.command</groupId>
-    <artifactId>robotics-command</artifactId>
+    <groupId>shay.space.station.api</groupId>
+    <artifactId>api</artifactId>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -18,12 +18,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>shay.space.station.ui</groupId>
-            <artifactId>ui</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>shay.space.station.infrastructures</groupId>
             <artifactId>robotics-infrastructures</artifactId>
@@ -37,8 +31,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>shay.space.station.robots</groupId>
-            <artifactId>robotics-robots</artifactId>
+            <groupId>shay.space.station.command</groupId>
+            <artifactId>robotics-command</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
