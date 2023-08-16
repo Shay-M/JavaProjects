@@ -1,12 +1,10 @@
 package shay.space.station.infra.behavior.states;
 
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shay.space.station.infra.base.IRobotActions;
-import shay.space.station.infra.base.IRobotDate;
 import shay.space.station.infra.behavior.IRobotState;
-import shay.space.station.ui.console.Output;
+import shay.space.station.ui.infra.Output;
 
 
 @Component
@@ -33,6 +31,6 @@ public class RebootingState implements IRobotState {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName();
+        return "Rebooting";
     }
 }

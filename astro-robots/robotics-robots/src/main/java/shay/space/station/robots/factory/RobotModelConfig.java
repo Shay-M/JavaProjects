@@ -17,11 +17,7 @@ import java.util.Map;
 
 @Configuration
 public class RobotModelConfig {
-
-    @Autowired
-    List<Robot> robots;
-
-    // @Bean
+        // @Bean
     // public Map<String, Class<? extends Robot>> robotTypes() {
     //     Map<String, Class<? extends Robot>> robotTypes = new HashMap<>();
     //     robotTypes.put("HAL9000", Hal9000.class);
